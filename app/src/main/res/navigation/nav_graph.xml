@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <!-- MainFragment -->
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.merttoptas.cizvio.ui.fragment.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_gameCreateFragment"
+            app:destination="@id/gameCreateFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_userAgreementFragment"
+            app:destination="@id/userAgreementFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_gameRulesFragment"
+            app:destination="@id/gameRulesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/gameCreateFragment"
+        android:name="com.merttoptas.cizvio.ui.fragment.GameCreateFragment"
+        android:label=""
+        tools:layout="@layout/fragment_game_create" />
+
+    <fragment
+        android:id="@+id/gameRulesFragment"
+        android:name="com.merttoptas.cizvio.ui.fragment.GameRulesFragment"
+        android:label="fragment_game_rules"
+        tools:layout="@layout/fragment_game_rules" />
+    <fragment
+        android:id="@+id/userAgreementFragment"
+        android:name="com.merttoptas.cizvio.ui.fragment.UserAgreementFragment"
+        android:label="fragment_user_agreement"
+        tools:layout="@layout/fragment_user_agreement" />
+
+</navigation>
