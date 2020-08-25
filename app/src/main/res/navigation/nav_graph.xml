@@ -38,7 +38,11 @@
         android:id="@+id/gameCreateFragment"
         android:name="com.merttoptas.cizvio.ui.fragment.GameCreateFragment"
         android:label=""
-        tools:layout="@layout/fragment_game_create" />
+        tools:layout="@layout/fragment_game_create" >
+        <action
+            android:id="@+id/action_gameCreateFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/gameRulesFragment"
@@ -50,5 +54,10 @@
         android:name="com.merttoptas.cizvio.ui.fragment.UserAgreementFragment"
         android:label="fragment_user_agreement"
         tools:layout="@layout/fragment_user_agreement" />
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.merttoptas.cizvio.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game" />
 
 </navigation>
