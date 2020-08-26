@@ -24,9 +24,16 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.merttoptas.cizvio.ui.serverDrawView.ServerDrawView
-                android:id="@+id/serverDrawView"
+                android:id="@+id/serverDrawViewLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/white" />
+
+            <com.merttoptas.cizvio.ui.clientDrawView.ClientDrawView
+                android:id="@+id/clientDrawViewLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:background="@android:color/white" />
 
         </androidx.cardview.widget.CardView>
@@ -45,6 +52,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:background="@android:color/white"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp" />

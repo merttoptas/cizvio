@@ -198,7 +198,7 @@ class ServerDrawView @JvmOverloads constructor (context:Context,  attrs: Attribu
         mCurX = motionTouchEventX
         mCurY = motionTouchEventY
         isDraw = true
-        /*
+
          sendDraw(
             x1 = resizeX(mCurX),
             y1 = resizeY(mCurY),
@@ -206,7 +206,8 @@ class ServerDrawView @JvmOverloads constructor (context:Context,  attrs: Attribu
             strokeWith = mPaintOptions.strokeWidth / centerX,
             isDraw = isDraw
         )
-         */
+        Log.d("clientDraw", resizeX(mCurX).toString())
+
 
         invalidate()
 

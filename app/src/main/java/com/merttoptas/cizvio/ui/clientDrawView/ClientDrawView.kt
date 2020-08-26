@@ -13,10 +13,7 @@ import androidx.annotation.ColorInt
 import androidx.core.graphics.ColorUtils
 import com.google.gson.Gson
 import com.merttoptas.cizvio.R
-import com.merttoptas.cizvio.model.DrawType
-import com.merttoptas.cizvio.model.GetDraw
-import com.merttoptas.cizvio.model.Message
-import com.merttoptas.cizvio.model.initialData
+import com.merttoptas.cizvio.model.*
 import com.merttoptas.cizvio.ui.AbstractView
 import com.merttoptas.cizvio.utils.widget.MyPath
 import com.merttoptas.cizvio.utils.widget.PaintOptions
@@ -30,8 +27,8 @@ import kotlinx.coroutines.launch
 import java.util.LinkedHashMap
 
 
-class ClientDrawView (context: Context, attrs: AttributeSet? = null,
-                      defStyleAttr: Int = 0)  : View(context, attrs), AbstractView.View{
+class ClientDrawView @JvmOverloads constructor (context:Context,  attrs: AttributeSet? = null, defStyleAttr: Int = 0)  : View(context, attrs, defStyleAttr), AbstractView.View{
+
     lateinit var mSocket: Socket
     private var mPaint = Paint()
     private var mPath = MyPath()
@@ -83,7 +80,7 @@ class ClientDrawView (context: Context, attrs: AttributeSet? = null,
             mSocket.on(Socket.EVENT_CONNECT, onConnect)
             mSocket.on("drawData", onUpdateDraw)
             mSocket.on("updateDraw", onUpdateDraw)
-
+            mSocket.on("newUserToDrawRoom", onNewUser)
 
         }.await()
     }
@@ -91,6 +88,11 @@ class ClientDrawView (context: Context, attrs: AttributeSet? = null,
         val data = initialData("a", "a")
         val jsonData = gson.toJson(data)
         mSocket.emit("subscribe", jsonData)
+    }
+
+    var onNewUser = Emitter.Listener {
+        val chat = Message("b", "", "a", MessageType.CHAT_PARTNER.index)
+        //GameFragment().addItemToRecyclerView(chat)
     }
 
     var onUpdateDraw = Emitter.Listener {
@@ -102,6 +104,8 @@ class ClientDrawView (context: Context, attrs: AttributeSet? = null,
         isDraw = draw.isDraw
         mColors = draw.colors
         mStrokeWidth = draw.strokeWidth * centerX
+
+        Log.d("clientDrawK", mCurX.toString())
 
         if (isDraw) {
             actionUp()

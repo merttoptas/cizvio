@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -84,9 +85,11 @@ class GameCreateFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v!!.id) {
-            R.id.gameCreateButton -> navController!!.navigate(
-                R.id.action_gameCreateFragment_to_gameFragment
-            )
+            R.id.gameCreateButton -> {
+                val userName = "emregoren"
+                val bundle = bundleOf("username" to userName)
+                navController!!.navigate(R.id.action_gameCreateFragment_to_gameFragment, bundle)
+            }
 
             R.id.gameCreateBackButton -> navController!!.navigate(
                 R.id.action_gameCreateFragment_to_mainFragment

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.merttoptas.cizvio.R
@@ -37,6 +38,7 @@ class MainFragment : Fragment(), View.OnClickListener {
         view.findViewById<TextView>(R.id.game_rules).setOnClickListener(this)
         view.findViewById<TextView>(R.id.user_agreement).setOnClickListener(this)
         view.findViewById<Button>(R.id.gameCreate).setOnClickListener(this)
+        view.findViewById<Button>(R.id.fastGameBtn).setOnClickListener(this)
 
     }
 
@@ -51,6 +53,11 @@ class MainFragment : Fragment(), View.OnClickListener {
             R.id.gameCreate -> navController!!.navigate(
                 R.id.action_mainFragment_to_gameCreateFragment
             )
+            R.id.fastGameBtn -> {
+                val userName = "merttoptas"
+                val bundle = bundleOf("username" to userName)
+                navController!!.navigate(R.id.action_mainFragment_to_gameFragment, bundle)
+            }
 
         }
     }
