@@ -35,6 +35,7 @@ class GameCreateFragment : Fragment(), View.OnClickListener {
 
         navController = Navigation.findNavController(view)
         view.findViewById<Button>(R.id.gameCreateButton).setOnClickListener(this)
+        view.findViewById<Button>(R.id.gameCreateBackButton).setOnClickListener(this)
 
         initSpinner()
     }
@@ -83,9 +84,14 @@ class GameCreateFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when(v!!.id) {
-            R.id.gameCreateButton ->  navController!!.navigate(
-            R.id.action_gameCreateFragment_to_gameFragment
-        )
+            R.id.gameCreateButton -> navController!!.navigate(
+                R.id.action_gameCreateFragment_to_gameFragment
+            )
+
+            R.id.gameCreateBackButton -> navController!!.navigate(
+                R.id.action_gameCreateFragment_to_mainFragment
+            )
         }
+
     }
 }

@@ -37,11 +37,22 @@
     <fragment
         android:id="@+id/gameCreateFragment"
         android:name="com.merttoptas.cizvio.ui.fragment.GameCreateFragment"
-        android:label=""
+        android:label="fragment_game_create"
         tools:layout="@layout/fragment_game_create" >
         <action
             android:id="@+id/action_gameCreateFragment_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            app:destination="@id/gameFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_gameCreateFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -56,7 +67,7 @@
         tools:layout="@layout/fragment_user_agreement" />
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.merttoptas.cizvio.GameFragment"
+        android:name="com.merttoptas.cizvio.ui.fragment.GameFragment"
         android:label="fragment_game"
         tools:layout="@layout/fragment_game" />
 

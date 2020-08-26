@@ -51,17 +51,16 @@
             android:layout_height="46dp"
             android:layout_marginTop="46dp"
             android:background="@drawable/rg_button"
-            android:fontFamily="sans-serif-medium"
             android:gravity="center_horizontal|center_vertical"
             android:letterSpacing="0.1"
             android:text="Oyun Kur"
-            android:typeface="serif"
+            android:fontFamily="sans-serif-medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gameRoomCategorySpinner" />
 
         <Button
-            android:id="@+id/textView2"
+            android:id="@+id/gameCreateBackButton"
             android:layout_width="279dp"
             android:layout_height="46dp"
             android:layout_marginTop="8dp"

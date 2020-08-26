@@ -18,37 +18,40 @@ import com.google.gson.Gson
 import com.merttoptas.cizvio.R
 import com.merttoptas.cizvio.model.*
 import com.merttoptas.cizvio.ui.AbstractView
+import com.merttoptas.cizvio.ui.fragment.GameFragment
 import com.merttoptas.cizvio.utils.widget.MyPath
 import com.merttoptas.cizvio.utils.widget.PaintOptions
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.lang.String
 import java.util.*
 
-class ServerDrawView (context:Context,  attrs: AttributeSet? = null,
-                      defStyleAttr: Int = 0)  : View(context, attrs), AbstractView.View{
+class ServerDrawView @JvmOverloads constructor (context:Context,  attrs: AttributeSet? = null, defStyleAttr: Int = 0)  : View(context, attrs, defStyleAttr), AbstractView.View{
 
     private var mPaths = LinkedHashMap<MyPath, PaintOptions>()
     private var mUndonePaths = LinkedHashMap<MyPath, PaintOptions>()
     private var mPaint = Paint()
     private var mPath = MyPath()
     private var mPaintOptions = PaintOptions()
-    lateinit var mSocket: Socket
+    private lateinit var mSocket: Socket
     private var centerX = 0
     private var centerY = 0
     private var mCurX = 0f
     private var mCurY = 0f
+    lateinit var gameFragment : GameFragment
     private var motionTouchEventX = 0f
     private var motionTouchEventY = 0f
     private val touchTolerance = ViewConfiguration.get(context).scaledTouchSlop
     val gson: Gson = Gson()
     var getColors :Int ? = null
     var isDraw = false
+    private var mStrokeWidth = 8f
+        set(strokeWidth) {
+            field = strokeWidth
+            mPaint.strokeWidth = field
+        }
 
     private var mIsStrokeWidthBarEnabled = false
 
@@ -65,8 +68,6 @@ class ServerDrawView (context:Context,  attrs: AttributeSet? = null,
     }
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-
-
         for ((key, value) in mPaths) {
             changePaint(value)
             canvas!!.drawPath(key, mPaint)
@@ -112,6 +113,10 @@ class ServerDrawView (context:Context,  attrs: AttributeSet? = null,
             mSocket.connect()
             mSocket.on(Socket.EVENT_CONNECT, onConnect)
             mSocket.on("drawData", onUpdateDraw)
+            mSocket.on("newUserToChatRoom", onNewUser)
+            mSocket.on("newUserToDrawRoom", onNewUser)
+
+
 
         }.await()
     }
@@ -128,16 +133,20 @@ class ServerDrawView (context:Context,  attrs: AttributeSet? = null,
         mSocket.emit("subscribe", jsonData)
     }
 
+    var onNewUser = Emitter.Listener {
+        val chat = Message("a", "", "a", MessageType.CHAT_PARTNER.index)
+        //GameFragment().addItemToRecyclerView(chat)
+    }
+
     var onDrawData = Emitter.Listener {
         val drawData: SendDraw = gson.fromJson(it[0].toString(), SendDraw::class.java)
 
     }
 
     override fun changePaint(paintOptions: PaintOptions) {
-        mPaint.color = if (paintOptions.isEraserOn) paintOptions.color else Color.WHITE
+        mPaint.color = if (paintOptions.isEraserOn) Color.WHITE else paintOptions.color
         mPaint.strokeWidth = paintOptions.strokeWidth
     }
-
 
     override fun setColor(newColor: Int) {
         getColors = newColor
@@ -153,21 +162,19 @@ class ServerDrawView (context:Context,  attrs: AttributeSet? = null,
         mPaintOptions.strokeWidth = newStrokeWidth
         if (mIsStrokeWidthBarEnabled) {
             invalidate()
-
         }
     }
 
     private fun sendDraw(x1:Float, y1:Float , colors:Int, strokeWith: Float, isDraw:Boolean) {
         val hexColor = String.format("#%06X", 0xFFFFFF and colors)
-
         val sendDrawData = SendDraw("a", "a", x1, y1, isDraw, strokeWith, hexColor)
         val jsonData = gson.toJson(sendDrawData)
-        mSocket.emit("drawData", jsonData)
+      //  mSocket.emit("drawData", jsonData)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         motionTouchEventX = event!!.x
-        motionTouchEventY = event!!.y
+        motionTouchEventY = event.y
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -191,14 +198,17 @@ class ServerDrawView (context:Context,  attrs: AttributeSet? = null,
         mCurX = motionTouchEventX
         mCurY = motionTouchEventY
         isDraw = true
-        sendDraw(
+        /*
+         sendDraw(
             x1 = resizeX(mCurX),
             y1 = resizeY(mCurY),
             colors = color,
             strokeWith = mPaintOptions.strokeWidth / centerX,
             isDraw = isDraw
         )
-        //invalidate()
+         */
+
+        invalidate()
 
     }
 
